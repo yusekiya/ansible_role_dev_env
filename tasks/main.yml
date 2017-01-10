@@ -48,20 +48,22 @@
     - dotfiles
     - git
 
-- name: Check if anaconda has been installed
-  stat: path='{{dev_env_anaconda.prefix}}'
-  register: stat_anaconda_dir
-  tags:
-    - python
+- block:
+  - name: Check if anaconda has been installed
+    stat: path='{{dev_env_anaconda.prefix}}'
+    register: stat_anaconda_dir
+    tags:
+      - python
 
-- name: Download script to install anaconda
-  get_url:
-    url: '{{dev_env_anaconda.src}}'
-    dest: '{{dev_env_anaconda.dest}}'
-  when: not stat_anaconda_dir.stat.exists
-  notify: Install anaconda
-  tags:
-    - python
+  - name: Download script to install anaconda
+    get_url:
+      url: '{{dev_env_anaconda.src}}'
+      dest: '{{dev_env_anaconda.dest}}'
+    when: not stat_anaconda_dir.stat.exists
+    notify: Install anaconda
+    tags:
+      - python
+  when: '{{dev_env_should_install_anaconda}}'
 
 - name: Update package index file
   become: yes

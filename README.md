@@ -66,6 +66,9 @@ dev_env_dotfiles:
 Information for anaconda.
 
 ``` yaml
+# Whether or not install anaconda
+dev_env_should_install_anaconda: no
+# Script to install anaconda
 dev_env_anaconda:
   prefix: '~/anaconda3'
   src: 'https://repo.continuum.io/archive/Anaconda3-4.2.0-Linux-x86_64.sh'
