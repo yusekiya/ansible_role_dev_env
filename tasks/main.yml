@@ -167,22 +167,6 @@
     - nord_theme
   when: ret_nord_dircolors_clone | changed
 
-- name: Install dependencies for fzf
-  become: yes
-  become_user: root
-  apt:
-    name: '{{item}}'
-    state: present
-  with_items:
-    - ruby-dev
-    - libncursesw5
-    - libncursesw5-dev
-    - libncurses5-dev
-  tags:
-    - apt
-    - fzf
-    - need_root
-
 - name: Git clone fzf
   git:
     repo: 'https://github.com/junegunn/fzf.git'
