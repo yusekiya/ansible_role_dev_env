@@ -70,13 +70,18 @@
     - always
   when: not stat_git_manage.stat.exists
 
+
+- find:
+    name: '~/repos/my_utils'
+  register: ret_find_my_utils
+
 - name: Install my utils | Install
   file:
     state: link
-    src: '{{ item }}'
-    dest: '~/bin/{{ item | basename }}'
-  with_fileglob:
-    - '~/repos/my_utils/*'
+    src: '{{ item.path }}'
+    dest: '~/bin/{{ item.path | basename }}'
+  with_items:
+    - "{{ret_find_my_utils.files}}"
   tags:
     - always
   when: ret_my_utils | changed
@@ -98,13 +103,13 @@
       - python
 
   - name: Install nbstripout | check existence
-    shell: conda list | grep 'nbstripout'
+    shell: '{{dev_env_anaconda.prefix}}/bin/conda list | grep "nbstripout"'
     register: nbstripout_installed
     failed_when: no
     changed_when: nbstripout_installed.rc != 0
 
   - name: Install nbstripout | install
-    shell: conda install -c conda-forge nbstripout
+    shell: '{{dev_env_anaconda.prefix}}/bin/conda install -c conda-forge nbstripout'
     when: nbstripout_installed | changed
 
   when: dev_env_should_install_anaconda
