@@ -12,6 +12,7 @@ This role includes following tasks.
 - Install anaconda/miniconda (tags: python)
 - Install packages through apt-get (tags: apt, need_root)
 - Clone git repos (tags: git)
+- Install dircolors for Nord theme (tags: git, nord_theme)
 - Install and build fzf (tags: fzf, apt, git, need_root)
 - Install and build tmux (tags: tmux, apt, git, need_root)
 - Install and build tig (tags: tig, apt, git, need_root)

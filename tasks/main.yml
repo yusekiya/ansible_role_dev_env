@@ -133,6 +133,24 @@
   tags:
     - git
 
+- name: Install Nord dircolors | git clone repo
+  git:
+    repo: "https://github.com/arcticicestudio/nord-dircolors.git"
+    dest: "~/repos/nord-dircolors"
+  tags:
+    - git
+    - nord_theme
+  register: ret_nord_dircolors_clone
+
+- name: Install Nord dircolors | make symlink
+  file:
+    state: link
+    src: "~/repos/nord-dircolors/src/dir_colors"
+    dest: "~/.dircolors"
+  tags:
+    - nord_theme
+  when: ret_nord_dircolors_clone | changed
+
 - name: Install dependencies for fzf
   become: yes
   become_user: root
