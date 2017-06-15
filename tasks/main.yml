@@ -104,7 +104,7 @@
     changed_when: nbstripout_installed.rc != 0
 
   - name: Install nbstripout | install
-    command: conda install -c conda-forge nbstripout
+    shell: conda install -c conda-forge nbstripout
     when: nbstripout_installed | changed
 
   when: dev_env_should_install_anaconda
