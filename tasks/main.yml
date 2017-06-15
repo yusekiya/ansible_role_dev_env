@@ -50,14 +50,14 @@
 
 - name: Install my utils | Clone
   git:
-    repo: "https://github.com/yusekiya/my_utils.git"
-    dest: "~/repos/my_utils"
+    repo: 'https://github.com/yusekiya/my_utils.git'
+    dest: '~/repos/my_utils'
   tags:
     - git
   register: ret_my_utils
 
 - stat:
-    path: "~/.git_manage"
+    path: '~/.git_manage'
   tags:
     - always
   register: stat_git_manage
@@ -65,7 +65,7 @@
 - name: Install my utils | Create database file for git manage command
   file:
     state: touch
-    dest: "~/.git_manage"
+    dest: '~/.git_manage'
   tags:
     - always
   when: not stat_git_manage.stat.exists
@@ -73,10 +73,10 @@
 - name: Install my utils | Install
   file:
     state: link
-    src: "{{ item }}"
-    dest: "~/bin/{{ item | basename }}"
+    src: '{{ item }}'
+    dest: '~/bin/{{ item | basename }}'
   with_fileglob:
-    - "~/repos/my_utils/*"
+    - '~/repos/my_utils/*'
   tags:
     - always
   when: ret_my_utils | changed
@@ -101,13 +101,13 @@
     shell: conda list | grep 'nbstripout'
     register: nbstripout_installed
     failed_when: no
-    changed_when: '{{nbstripout_installed.rc != 0}}'
+    changed_when: nbstripout_installed.rc != 0
 
   - name: Install nbstripout | install
     command: conda install -c conda-forge nbstripout
     when: nbstripout_installed | changed
 
-  when: '{{dev_env_should_install_anaconda}}'
+  when: dev_env_should_install_anaconda
 
 - name: Update package index file
   become: yes
@@ -146,8 +146,8 @@
 
 - name: Install Nord dircolors | git clone repo
   git:
-    repo: "https://github.com/arcticicestudio/nord-dircolors.git"
-    dest: "~/repos/nord-dircolors"
+    repo: 'https://github.com/arcticicestudio/nord-dircolors.git'
+    dest: '~/repos/nord-dircolors'
   tags:
     - git
     - nord_theme
@@ -156,8 +156,8 @@
 - name: Install Nord dircolors | make symlink
   file:
     state: link
-    src: "~/repos/nord-dircolors/src/dir_colors"
-    dest: "~/.dircolors"
+    src: '~/repos/nord-dircolors/src/dir_colors'
+    dest: '~/.dircolors'
   tags:
     - nord_theme
   when: ret_nord_dircolors_clone | changed
@@ -180,8 +180,8 @@
 
 - name: Git clone fzf
   git:
-    repo: "https://github.com/junegunn/fzf.git"
-    dest: "~/.fzf"
+    repo: 'https://github.com/junegunn/fzf.git'
+    dest: '~/.fzf'
   notify: Install fzf
   tags:
     - git
@@ -204,8 +204,8 @@
 
 - name: Clone tmux repo and install
   git:
-    repo: "https://github.com/tmux/tmux.git"
-    dest: "~/repos/tmux"
+    repo: 'https://github.com/tmux/tmux.git'
+    dest: '~/repos/tmux'
   notify: Install tmux
   tags:
     - tmux
@@ -227,8 +227,8 @@
 
 - name: Clone tig repo and install
   git:
-    repo: "https://github.com/jonas/tig.git"
-    dest: "~/repos/tig"
+    repo: 'https://github.com/jonas/tig.git'
+    dest: '~/repos/tig'
   notify: Install tig
   tags:
     - tig
