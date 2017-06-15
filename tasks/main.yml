@@ -48,6 +48,39 @@
     - dotfiles
     - git
 
+- name: Install my utils | Clone
+  git:
+    repo: "https://github.com/yusekiya/my_utils.git"
+    dest: "~/repos/my_utils"
+  tags:
+    - git
+  register: ret_my_utils
+
+- stat:
+    path: "~/.git_manage"
+  tags:
+    - always
+  register: stat_git_manage
+
+- name: Install my utils | Create database file for git manage command
+  file:
+    state: touch
+    dest: "~/.git_manage"
+  tags:
+    - always
+  when: not stat_git_manage.stat.exists
+
+- name: Install my utils | Install
+  file:
+    state: link
+    src: "{{ item }}"
+    dest: "~/bin/{{ item | basename }}"
+  with_fileglob:
+    - "~/repos/my_utils/*"
+  tags:
+    - always
+  when: ret_my_utils | changed
+
 - block:
   - name: Check if anaconda has been installed
     stat: path='{{dev_env_anaconda.prefix}}'

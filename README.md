@@ -8,6 +8,7 @@ This role includes following tasks.
 - Create directories (tags: basic_dirs)
 - Install newer version of Git (tags: need_root) (only for ubuntu)
 - Clone user's dotfiles (tags: dotfiles, git)
+- Install my utilities (tags: always, git)
 - Install anaconda/miniconda (tags: python)
 - Install packages through apt-get (tags: apt, need_root)
 - Clone git repos (tags: git)
