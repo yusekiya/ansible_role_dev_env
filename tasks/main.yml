@@ -96,6 +96,17 @@
     notify: Install anaconda
     tags:
       - python
+
+  - name: Install nbstripout | check existence
+    shell: conda list | grep 'nbstripout'
+    register: nbstripout_installed
+    failed_when: no
+    changed_when: '{{nbstripout_installed.rc != 0}}'
+
+  - name: Install nbstripout | install
+    command: conda install -c conda-forge nbstripout
+    when: nbstripout_installed | changed
+
   when: '{{dev_env_should_install_anaconda}}'
 
 - name: Update package index file
