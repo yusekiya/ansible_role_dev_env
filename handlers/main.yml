@@ -13,15 +13,15 @@
 - name: Install tmux
   shell: >
     sh autogen.sh;
-    ./configure --prefix=/home/{{dev_env_user}}/usr;
+    ./configure --prefix=/home/{{dev_env_user}}/.local;
     make && make install
   args:
     chdir: '~/repos/tmux'
 
 - name: Install tig
   shell: >
-    make prefix=/home/{{dev_env_user}}/usr;
-    make install prefix=/home/{{dev_env_user}}/usr
+    make prefix=/home/{{dev_env_user}}/.local;
+    make install prefix=/home/{{dev_env_user}}/.local
   args:
     chdir: '~/repos/tig'
 

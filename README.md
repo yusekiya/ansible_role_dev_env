@@ -42,16 +42,14 @@ List of directories preferred to be made in advance.
 dev_env_basic_dirs:
   - {path: '~/Downloads'}
   - {path: '~/.nodebrew/src'}
-  - {path: '~/bin'}
   - {path: '~/repos'}
   - {path: '~/scratch'}
-  - {path: '~/share'}
-  - {path: '~/usr/bin'}
-  - {path: '~/usr/include'}
-  - {path: '~/usr/lib'}
-  - {path: '~/usr/lib/python3/site-packages'}
-  - {path: '~/usr/share'}
-  - {path: '~/usr/src'}
+  - {path: '~/.local/bin'}
+  - {path: '~/.local/include'}
+  - {path: '~/.local/lib'}
+  - {path: '~/.local/lib/python3/site-packages'}
+  - {path: '~/.local/share'}
+  - {path: '~/.local/src'}
 ```
 
 Information about your dotfiles.
