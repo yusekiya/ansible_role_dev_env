@@ -1,6 +1,8 @@
 ---
 # dev_env_user: 'username'
 
+has_root_privilege: False
+
 dev_env_basic_dirs: []
 
 dev_env_should_install_anaconda: no

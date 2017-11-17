@@ -10,6 +10,7 @@
   tags:
     - docker
     - need_root
+  when: has_root_privilege
 
 - name: Make basic directories
   file:
@@ -36,7 +37,9 @@
       update_cache: yes
     tags:
       - need_root
-  when: ansible_lsb.id == "Ubuntu"
+  when:
+    - ansible_lsb.id == "Ubuntu"
+    - has_root_privilege
 
 - name: Git clone dotfiles
   git:
@@ -121,6 +124,7 @@
   tags:
     - apt
     - need_root
+  when: has_root_privilege
 
 - name: Install packages
   become: yes
@@ -132,6 +136,7 @@
   tags:
     - apt
     - need_root
+  when: has_root_privilege
 
 - name: Make sure that directory for git repos exists
   file:
@@ -176,52 +181,58 @@
     - git
     - fzf
 
-- name: Install dependencies for tmux
-  become: yes
-  become_user: root
-  apt:
-    name: '{{item}}'
-    state: present
-  with_items:
-    - automake
-    - libncurses5-dev
-    - libevent-dev
-  tags:
-    - apt
-    - tmux
-    - need_root
+- block:
+  - name: Install dependencies for tmux
+    become: yes
+    become_user: root
+    apt:
+      name: '{{item}}'
+      state: present
+    with_items:
+      - automake
+      - libncurses5-dev
+      - libevent-dev
+    tags:
+      - apt
+      - tmux
+      - need_root
 
-- name: Clone tmux repo and install
-  git:
-    repo: 'https://github.com/tmux/tmux.git'
-    dest: '~/repos/tmux'
-  notify: Install tmux
-  tags:
-    - tmux
-    - git
+  - name: Clone tmux repo and install
+    git:
+      repo: 'https://github.com/tmux/tmux.git'
+      dest: '~/repos/tmux'
+    notify: Install tmux
+    tags:
+      - tmux
+      - git
 
-- name: Install dependencies for tig
-  become: yes
-  become_user: root
-  apt:
-    name: '{{item}}'
-    state: present
-  with_items:
-    - automake
-    - libncurses5-dev
-  tags:
-    - apt
-    - tig
-    - need_root
+  when: has_root_privilege
 
-- name: Clone tig repo and install
-  git:
-    repo: 'https://github.com/jonas/tig.git'
-    dest: '~/repos/tig'
-  notify: Install tig
-  tags:
-    - tig
-    - git
+- block:
+  - name: Install dependencies for tig
+    become: yes
+    become_user: root
+    apt:
+      name: '{{item}}'
+      state: present
+    with_items:
+      - automake
+      - libncurses5-dev
+    tags:
+      - apt
+      - tig
+      - need_root
+
+  - name: Clone tig repo and install
+    git:
+      repo: 'https://github.com/jonas/tig.git'
+      dest: '~/repos/tig'
+    notify: Install tig
+    tags:
+      - tig
+      - git
+
+  when: has_root_privilege
 
 - name: Check if nodebrew has been installed
   stat: path='{{dev_env_nodebrew.executable_path}}'
