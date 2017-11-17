@@ -79,7 +79,7 @@
   file:
     state: link
     src: '{{ item.path }}'
-    dest: '~/bin/{{ item.path | basename }}'
+    dest: '~/.local/bin/{{ item.path | basename }}'
   with_items:
     - "{{ret_find_my_utils.files}}"
   tags:
